@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ana Sayfa</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #fff;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+
+        /* Sayfayı çapraz şekilde ayırma */
+        .half-left {
+            width: 10%;
+            height: 100%;
+            background-color: #fff;
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+            z-index: 1;
+        }
+
+        .half-right {
+            width: 90%;
+            height: 100%;
+            background-color: #6a0dad;
+            clip-path: polygon(100% 0, 100% 100%, 0 100%);
+            z-index: 1;
+        }
+
+        /* Hoş Geldiniz ve altındaki yazı */
+        .welcome-container {
+            position: absolute;
+            left: 5%;
+            top: 40%;
+            transform: translateY(-50%);
+            color: #6a0dad;
+            z-index: 2;
+            max-width: 60%;
+        }
+
+        .welcome-container .welcome {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .welcome-container .subtitle {
+            font-size: 1.5rem;
+            margin: 10px 0 0 0;
+        }
+
+        /* Kaydol ve Giriş Yap butonları */
+        .buttons {
+            position: absolute;
+            right: 5%;
+            top: 60%;
+            transform: translateY(-50%);
+            z-index: 2;
+            text-align: center;
+        }
+
+        .buttons button {
+            background-color: white;
+            color: #6a0dad;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            display: block;
+            width: 200px;
+        }
+
+        .buttons button:hover {
+            background-color: #d8bfd8;
+        }
+
+        /* Hareket eden kareler */
+        .squares {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .square {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(128, 128, 128, 0.3);
+            animation: move 10s infinite linear;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translateY(0) rotate(0);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* Farklı konumlar ve gecikmeler için */
+        .square:nth-child(1) {
+            top: -50px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .square:nth-child(2) {
+            top: -50px;
+            left: 25%;
+            animation-delay: 2s;
+        }
+
+        .square:nth-child(3) {
+            top: -50px;
+            left: 40%;
+            animation-delay: 4s;
+        }
+
+        .square:nth-child(4) {
+            top: -50px;
+            left: 55%;
+            animation-delay: 6s;
+        }
+
+        .square:nth-child(5) {
+            top: -50px;
+            left: 70%;
+            animation-delay: 8s;
+        }
+
+        .square:nth-child(6) {
+            top: -50px;
+            left: 85%;
+            animation-delay: 10s;
+        }
+
+        @media (max-width: 768px) {
+            .half-left {
+                width: 20%;
+            }
+
+            .half-right {
+                width: 80%;
+            }
+
+            .welcome-container {
+                left: 5%;
+                top: 40%;
+                max-width: 80%;
+            }
+
+            .welcome-container .welcome {
+                font-size: 1.5rem;
+            }
+
+            .welcome-container .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .buttons button {
+                width: 150px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .half-left {
+                width: 30%;
+            }
+
+            .half-right {
+                width: 70%;
+            }
+
+            .welcome-container {
+                left: 5%;
+                top: 40%;
+                max-width: 90%;
+            }
+
+            .welcome-container .welcome {
+                font-size: 1.2rem;
+            }
+
+            .welcome-container .subtitle {
+                font-size: 1rem;
+            }
+
+            .buttons button {
+                width: 120px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="squares">
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+        </div>
+        <div class="half-left"></div>
+        <div class="half-right"></div>
+        <div class="welcome-container">
+            <div class="welcome">Hoş Geldiniz!</div>
+            <div class="subtitle">Hemen kolay not oluşturun.</div>
+        </div>
+        <div class="buttons">
+            <a href="notolusturun.html">
+                <button class="sign-up">Not oluşturun</button>
+            </a>
+            <a href="girişş.html">
+                <button class="login">Anasayfa</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

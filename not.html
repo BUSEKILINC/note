@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not Görüntüle</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaOxOtPpPllzAaK3o1WFl1Rb9kn3g5zs+N1qB1Xfmn/B1r1j53VVUn1pF9G" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .a4-container {
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20mm;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .note-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #6a0dad;
+        }
+
+        .note-content {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            .a4-container,
+            .a4-container * {
+                visibility: visible;
+            }
+
+            .a4-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: auto;
+                margin: 0;
+                padding: 0;
+                border: none;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="a4-container">
+        <div class="note-title" id="noteTitle"></div>
+        <div class="note-content" id="noteContent"></div>
+    </div>
+
+    <script>
+        function getNoteIdFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('noteId');
+        }
+
+        function loadNote() {
+            const noteId = getNoteIdFromURL();
+            const note = JSON.parse(localStorage.getItem(`note-${noteId}`));
+
+            if (note) {
+                document.getElementById('noteTitle').textContent = note.title;
+                document.getElementById('noteContent').innerHTML = note.content.replace(/\n/g, '<br>');
+            } else {
+                document.getElementById('noteTitle').textContent = "Not Bulunamadı";
+                document.getElementById('noteContent').textContent = "Bu not geçerli değil veya silinmiş olabilir.";
+            }
+        }
+
+        window.onload = loadNote;
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>B-NOTES</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+      .bg-dark-purple {
+        background-color: #4B0082; /* Kapalı mor rengi */
+      }
+      .bg-white-hero {
+        background-color: #ffffff; /* Beyaz renk */
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-content {
+        text-align: center;
+        padding: 60px 15px;
+      }
+      .hero-img-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 20px;
+        padding-bottom: 60px;
+      }
+      .hero-img-container img {
+        border: 5px solid #4B0082;
+        border-radius: 10px;
+        max-width: 90%;
+        height: auto;
+        max-height: 500px; /* Maksimum yükseklik */
+      }
+      .bubble {
+        position: absolute;
+        border-radius: 50%;
+        background-color: rgba(128, 128, 128, 0.3);
+        animation: float 15s infinite ease-in-out;
+        z-index: 1;
+      }
+      /* Baloncukların boyutları ve pozisyonları */
+      .bubble:nth-child(1) { width: 30px; height: 30px; top: 10%; left: 20%; animation-duration: 25s; }
+      .bubble:nth-child(2) { width: 40px; height: 40px; top: 30%; left: 40%; animation-duration: 18s; }
+      .bubble:nth-child(3) { width: 35px; height: 35px; top: 20%; right: 30%; animation-duration: 22s; }
+      .bubble:nth-child(4) { width: 45px; height: 45px; top: 50%; left: 60%; animation-duration: 30s; }
+      .bubble:nth-child(5) { width: 25px; height: 25px; top: 70%; left: 10%; animation-duration: 20s; }
+      .bubble:nth-child(6) { width: 30px; height: 30px; top: 60%; right: 20%; animation-duration: 26s; }
+      .bubble:nth-child(7) { width: 50px; height: 50px; top: 40%; right: 40%; animation-duration: 28s; }
+      .bubble:nth-child(8) { width: 35px; height: 35px; top: 80%; left: 50%; animation-duration: 32s; }
+      .bubble:nth-child(9) { width: 30px; height: 30px; top: 25%; right: 50%; animation-duration: 24s; }
+      .bubble:nth-child(10) { width: 40px; height: 40px; top: 15%; left: 70%; animation-duration: 19s; }
+      .bubble:nth-child(11) { width: 20px; height: 20px; top: 5%; left: 30%; animation-duration: 22s; }
+      .bubble:nth-child(12) { width: 35px; height: 35px; top: 85%; right: 10%; animation-duration: 21s; }
+      .bubble:nth-child(13) { width: 45px; height: 45px; top: 65%; left: 80%; animation-duration: 29s; }
+      .bubble:nth-child(14) { width: 30px; height: 30px; top: 45%; right: 70%; animation-duration: 27s; }
+      .bubble:nth-child(15) { width: 50px; height: 50px; top: 30%; left: 10%; animation-duration: 31s; }
+      .bubble:nth-child(16) { width: 30px; height: 30px; top: 10%; left: 20%; animation-duration: 25s; }
+      .bubble:nth-child(17) { width: 40px; height: 40px; top: 30%; left: 40%; animation-duration: 18s; }
+      .bubble:nth-child(18) { width: 35px; height: 35px; top: 20%; right: 30%; animation-duration: 22s; }
+      .bubble:nth-child(19) { width: 45px; height: 45px; top: 50%; left: 60%; animation-duration: 30s; }
+      .bubble:nth-child(20) { width: 25px; height: 25px; top: 70%; left: 10%; animation-duration: 20s; }
+      .bubble:nth-child(21) { width: 30px; height: 30px; top: 60%; right: 20%; animation-duration: 26s; }
+      .bubble:nth-child(22) { width: 50px; height: 50px; top: 40%; right: 40%; animation-duration: 28s; }
+      .bubble:nth-child(23) { width: 35px; height: 35px; top: 80%; left: 50%; animation-duration: 32s; }
+      .bubble:nth-child(24) { width: 30px; height: 30px; top: 25%; right: 50%; animation-duration: 24s; }
+      .bubble:nth-child(25) { width: 40px; height: 40px; top: 15%; left: 70%; animation-duration: 19s; }
+      .bubble:nth-child(26) { width: 20px; height: 20px; top: 5%; left: 30%; animation-duration: 22s; }
+      .bubble:nth-child(27) { width: 35px; height: 35px; top: 85%; right: 10%; animation-duration: 21s; }
+      .bubble:nth-child(28) { width: 45px; height: 45px; top: 65%; left: 80%; animation-duration: 29s; }
+      .bubble:nth-child(29) { width: 30px; height: 30px; top: 45%; right: 70%; animation-duration: 27s; }
+      .bubble:nth-child(30) { width: 50px; height: 50px; top: 30%; left: 10%; animation-duration: 31s; }
+      /* Daha fazla baloncuk için eklemeler yapılabilir */
+
+      @keyframes float {
+        0% { transform: translateY(0) translateX(0); }
+        50% { transform: translateY(-20px) translateX(10px); }
+        100% { transform: translateY(0) translateX(0); }
+      }
+
+      /* Farenin olduğu yerden baloncukların uzaklaşması */
+      .bg-white-hero:hover .bubble {
+        transition: transform 0.5s ease-out;
+      }
+      .bg-white-hero:hover .bubble:nth-child(odd) {
+        transform: translateX(100px) translateY(100px);
+      }
+      .bg-white-hero:hover .bubble:nth-child(even) {
+        transform: translateX(-100px) translateY(-100px);
+      }
+
+      /* Hakkında Bölümü */
+      .about-section {
+        background-color: #f8f9fa; /* Açık gri arka plan rengi */
+        padding: 60px 0;
+      }
+
+      .about-section h2 {
+        color: #4B0082; /* Kapalı mor rengi */
+      }
+
+      .about-section p {
+        color: #333; /* Koyu gri metin rengi */
+      }
+
+      .about-section img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* Footer */
+      .footer {
+        background-color: #4B0082; /* Kapalı mor arka plan rengi */
+        color: #ffffff; /* Beyaz metin rengi */
+        padding: 15px 0;
+      }
+
+      .footer a {
+        color: #ffffff; /* Beyaz metin rengi */
+        text-decoration: none;
+      }
+
+      .footer a:hover {
+        text-decoration: underline;
+      }
+
+    </style>
+  </head>
+  <body>
+    <!--NAVBAR-->
+    <nav class="navbar navbar-expand-lg bg-dark-purple border-bottom border-dark">
+      <div class="container py-2">
+        <a class="navbar-brand text-white" href="index.html">B-Notes</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link text-white" href="notolusturun.html">Not Oluşturun</a>
+            <a class="nav-link text-white" href="notlarim.html">Notlarım</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!--NAVBAR END-->
+
+    <!-- HERO SECTION -->
+    <header class="bg-white-hero">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 text-center hero-content">
+            <h1 class="display-3">B-Notes</h1>
+            <p class="lead">Notlarınızı düzenlemenin en kolay yolu!</p>
+          </div>
+          <div class="col-lg-6 hero-img-container">
+            <img src="fotoğraflar/1.png" alt="Hero Image">
+          </div>
+        </div>
+        <!-- Baloncuklar -->
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+      </div>
+    </header>
+    <!-- HERO SECTION END -->
+
+    <!-- HAKKINDA -->
+    <div class="about-section bg-light py-5">
+      <div class="container">
+          <div class="row justify-content-center">
+              <div class="col-md-8">
+                  <div class="about-content">
+                      <h2 class="display-4">Hakkında</h2>
+                      <p class="lead">
+                          B-Notes, notlarınızı hızlı ve kolay bir şekilde oluşturmanızı sağlayan modern bir uygulamadır. Basit ve kullanıcı dostu arayüzü ile notlarınızı düzenlemenin yanı sıra, notlarınıza ek açıklamalar yapabilir, hatırlatıcılar ayarlayabilir ve daha fazlasını gerçekleştirebilirsiniz.
+                      </p>
+                      <p>
+                          Amacımız, günlük işlerinizi daha organize bir şekilde yapmanıza yardımcı olmaktır. B-Notes ile zamanınızı daha verimli kullanabilir, önemli bilgilerinizi her an yanınızda taşıyabilirsiniz.
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+    <!-- HAKKINDA END -->
+
+    <!-- FOOTER -->
+    <footer class="footer bg-dark-purple text-white text-center py-3">
+      <p>&copy; 2024 B-Notes. Tüm hakları saklıdır.</p>
+      <a href="privacy.html" class="text-light">Gizlilik Politikası</a> |
+      <a href="terms.html" class="text-light">Kullanım Şartları</a>
+    </footer>
+    <!-- FOOTER END -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.14.2/dist/umd/popper.min.js" integrity="sha384-wE6I8Eu4UqG9dXjYdTb1BzFzfwV+NsHk9gJgT1zFSfIVb94DaR4b1g9J9WQF8JoE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-68aF2clS7Jw4fQEnZ6Q7NfT4NE8lmUB9vVddRPxSS6Da/RjQH54xSUu8AQcxYP9e" crossorigin="anonymous"></script>
+  </body>
+</html>

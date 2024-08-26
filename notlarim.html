@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notlarım</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaOxOtPpPllzAaK3o1WFl1Rb9kn3g5zs+N1qB1Xfmn/B1r1j53VVUn1pF9G" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f0f0f0;
+        }
+
+        .note-card {
+            border: 2px solid #6a0dad;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: white;
+            position: relative;
+        }
+
+        .note-card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #6a0dad;
+            cursor: pointer;
+        }
+
+        .note-card .delete-btn,
+        .note-card .edit-btn {
+            position: absolute;
+            top: 15px;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .note-card .delete-btn {
+            right: 15px;
+            background-color: #dc3545;
+        }
+
+        .note-card .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .note-card .edit-btn {
+            right: 80px;
+            background-color: #007bff;
+        }
+
+        .note-card .edit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Hareket eden kareler */
+        .squares {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .square {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(128, 128, 128, 0.3);
+            animation: move 10s infinite linear;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translateY(0) rotate(0);
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* Farklı konumlar ve gecikmeler için */
+        .square:nth-child(1) {
+            top: -50px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .square:nth-child(2) {
+            top: -50px;
+            left: 25%;
+            animation-delay: 2s;
+        }
+
+        .square:nth-child(3) {
+            top: -50px;
+            left: 40%;
+            animation-delay: 4s;
+        }
+
+        .square:nth-child(4) {
+            top: -50px;
+            left: 55%;
+            animation-delay: 6s;
+        }
+
+        .square:nth-child(5) {
+            top: -50px;
+            left: 70%;
+            animation-delay: 8s;
+        }
+
+        .square:nth-child(6) {
+            top: -50px;
+            left: 85%;
+            animation-delay: 10s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Notlarım</h1>
+        <div id="notesContainer" class="row">
+            <!-- Notlar buraya gelecek -->
+        </div>
+    </div>
+
+    <script>
+        function loadNotes() {
+            const notesContainer = document.getElementById('notesContainer');
+            notesContainer.innerHTML = ''; // Önceki notları temizle
+
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('note-')) {
+                    const note = JSON.parse(localStorage.getItem(key));
+
+                    const noteCard = document.createElement('div');
+                    noteCard.className = 'col-md-4 note-card';
+
+                    const noteTitle = document.createElement('div');
+                    noteTitle.className = 'note-card-title';
+                    noteTitle.textContent = note.title;
+                    noteTitle.onclick = function () {
+                        window.location.href = `not.html?noteId=${key.replace('note-', '')}`;
+                    };
+
+                    // Silme butonunu oluştur
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'delete-btn';
+                    deleteBtn.textContent = 'Sil';
+                    deleteBtn.onclick = function () {
+                        if (confirm('Bu notu silmek istediğinizden emin misiniz?')) {
+                            localStorage.removeItem(key);
+                            loadNotes(); // Notlar tekrar yüklensin
+                        }
+                    };
+
+                    // Düzenleme butonunu oluştur
+                    const editBtn = document.createElement('button');
+                    editBtn.className = 'edit-btn';
+                    editBtn.textContent = 'Düzenle';
+                    editBtn.onclick = function () {
+                        window.location.href = `notolusturun.html?noteId=${key.replace('note-', '')}`;
+                    };
+
+                    noteCard.appendChild(noteTitle);
+                    noteCard.appendChild(deleteBtn);
+                    noteCard.appendChild(editBtn);
+                    notesContainer.appendChild(noteCard);
+                }
+            }
+        }
+
+        window.onload = loadNotes;
+    </script>
+</body>
+
+</html>
